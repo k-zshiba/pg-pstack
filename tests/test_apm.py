@@ -10,7 +10,7 @@ import zipfile
 
 import yaml
 
-from support import CONTRACT, MAINTAINER_SKILL, ROOT, SKILLS, Sandbox, check_links, copy_source, deployed_snapshot, frontmatter, load_yaml
+from support import CONTRACT, MAINTAINER_SKILL, ROOT, SKILLS, MODE, reachable_documents, Sandbox, check_links, copy_source, deployed_snapshot, frontmatter, load_yaml
 
 
 class APMTests(unittest.TestCase):
@@ -43,8 +43,25 @@ class APMTests(unittest.TestCase):
                         text = text.replace(href, "LINK")
                     return text
                 self.assertEqual(normalize(source.read_text()), normalize(dest.read_text()))
-                for ref in source.parent.glob("references/*.md"):
-                    self.assertEqual(ref.read_bytes(), (dest.parent / "references" / ref.name).read_bytes())
+                for resource in source.parent.rglob("*"):
+                    if not resource.is_file() or resource.name == "SKILL.md":
+                        continue
+                    installed = dest.parent / resource.relative_to(source.parent)
+                    self.assertTrue(installed.is_file(), str(installed))
+                    if resource.suffix == ".md":
+                        self.assertEqual(normalize(resource.read_text()), normalize(installed.read_text()))
+                    else:
+                        self.assertEqual(resource.read_bytes(), installed.read_bytes())
+            reached = reachable_documents([root / MODE / "SKILL.md"], consumer)
+            # APM relocates cross-skill links to its retained package cache.
+            # Match the resource within a skill, whether native or cache-backed.
+            identities = set()
+            for path in reached:
+                if "skills" in path.parts:
+                    index = len(path.parts) - 1 - path.parts[::-1].index("skills")
+                    identities.add(Path(*path.parts[index + 1:]))
+            self.assertTrue({p.relative_to(root) for p in package_docs} <= identities)
+
         body = frontmatter(CONTRACT)[1].strip()
         if "codex" in targets:
             text = (consumer / "AGENTS.md").read_text()
@@ -84,12 +101,16 @@ class APMTests(unittest.TestCase):
         archive = next((self.source / "dist").glob("*.zip"))
         with zipfile.ZipFile(archive) as packed:
             names = packed.namelist()
-            self.assertEqual(sum(name.endswith("SKILL.md") for name in names), 7)
+            self.assertEqual(sum(name.endswith("SKILL.md") for name in names), len(SKILLS))
             self.assertTrue(any(name.endswith("instructions/postgresql-contributor.instructions.md") for name in names))
             license_name = next(name for name in names if name.endswith("instructions/LICENSE"))
             self.assertEqual(packed.read(license_name), (ROOT / "LICENSE").read_bytes())
             metadata_name = next(name for name in names if name.endswith("plugin.json"))
             self.assertEqual(json.loads(packed.read(metadata_name))["license"], "PostgreSQL")
+            policy_suffix = "skills/pgsql-hackers-mode/agents/openai.yaml"
+            policy_name = next(name for name in names if name.endswith(policy_suffix))
+            self.assertEqual(packed.read(policy_name),
+                             (ROOT / ".apm" / policy_suffix).read_bytes())
             self.assertFalse(any("apm_modules/" in name for name in names))
             self.assertFalse(any(MAINTAINER_SKILL.name in name for name in names))
         # Lock generation alone must reproduce the committed empty closure.
@@ -208,7 +229,9 @@ class APMTests(unittest.TestCase):
         for relative, digest in lock["pack"]["bundle_files"].items():
             self.assertEqual(hashlib.sha256((bundle / relative).read_bytes()).hexdigest(), digest)
         self.assertEqual({p.parent.name for p in (bundle / "skills").glob("*/SKILL.md")}, SKILLS)
-        for source in (ROOT / ".apm/skills").rglob("*.md"):
+        for source in (ROOT / ".apm/skills").rglob("*"):
+            if not source.is_file():
+                continue
             self.assertEqual(source.read_bytes(), (bundle / "skills" / source.relative_to(ROOT / ".apm/skills")).read_bytes())
         self.assertEqual(CONTRACT.read_bytes(),
                          (bundle / "instructions/postgresql-contributor.instructions.md").read_bytes())

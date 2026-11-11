@@ -6,6 +6,9 @@ description: Select, run and interpret validation for a PostgreSQL upstream/core
 # Test a PostgreSQL patch
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [verify-behavior](../principle-pg-verify-behavior/SKILL.md)
+when the corresponding decisions arise.
+
 Read [test selection](references/test-selection.md) for infrastructure-specific
 choices; use it as a discovery guide, not a command cookbook.
 
@@ -37,3 +40,6 @@ Return a compact validation matrix plus unexplored risks and next useful tests.
 If build dependencies or time/resources prevent a required run, report the
 blocker and a reproducible plan. Test evidence applies to the tested revision;
 changes made afterward require proportionate revalidation.
+
+For core performance comparisons, read [measurement](references/performance-measurement.md)
+and [measure-before-optimizing](../principle-pg-measure-before-optimizing/SKILL.md).

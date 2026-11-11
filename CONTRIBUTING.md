@@ -18,7 +18,8 @@ Prepare releases through a pull request to `main` and tag the merged commit.
 
 - Author distributed agent files in `.apm/instructions/` and `.apm/skills/`.
   Put shared rules in the common instruction and task details in Skills or their
-  references.
+  references. Keep mode sequencing in playbooks and decision guidance in linked
+  principle Skills; specialists must remain usable without the mode.
 - Let APM generate provider files and plugin metadata; do not commit generated
   roots, provider trees, caches or bundles. Copilot's `.github/instructions/` and
   `.github/copilot-instructions.md` are generated too; `.github/workflows/` is CI

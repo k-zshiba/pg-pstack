@@ -1,7 +1,7 @@
 # pgsql-hackers-toolkit
 
-AI agent Skills for PostgreSQL core development: research, design, implement,
-test, review, revise patches and draft pgsql-hackers mail.
+AI agent workflows for PostgreSQL core development: an explicit coordinator mode,
+eight task playbooks, seven specialist Skills and five supporting principles.
 
 Supports Codex, Claude Code, GitHub Copilot and portable Agent Skills through
 [Agent Package Manager (APM)](https://github.com/microsoft/apm).
@@ -58,12 +58,25 @@ Provide a PostgreSQL checkout path in the task or set `PG_SOURCE`; otherwise,
 the workspace root must be a PostgreSQL source tree. Relative `PG_SOURCE` paths
 resolve from the workspace. Configure agent access to that checkout as needed.
 
-For example:
+For coordinated work, explicitly invoke the mode:
 
 ```text
-Investigate this planner bug in PG_SOURCE. Check source, callers, tests and
-pgsql-hackers history. Explain the evidence and unknowns before editing.
+$pgsql-hackers-mode Investigate and fix this PostgreSQL core planner bug in
+/path/to/postgresql. Reproduce it first, then make a focused patch and verify it.
 ```
+
+Use `/pgsql-hackers-mode` in Claude Code or Copilot. The mode selects investigation,
+bug-fix, feature, refactoring, performance, review, revision or submission playbooks.
+It stops at the requested deliverable; design-only and test-only requests go
+straight to their specialist. Submission preparation happens only when requested.
+See the [mode](.apm/skills/pgsql-hackers-mode/SKILL.md) and
+[architecture](docs/architecture.md#workflow-layers).
+
+The mode is explicit-only: its frontmatter disables automatic invocation for
+Claude/Copilot, and its `agents/openai.yaml` disables implicit invocation for
+Codex. Portable Agent Skills hosts must honor the corresponding settings; otherwise
+manual-only selection is an instruction convention, not an enforced guarantee.
+Existing specialist Skills keep automatic discovery and direct invocation:
 
 | Skill | Purpose |
 | --- | --- |

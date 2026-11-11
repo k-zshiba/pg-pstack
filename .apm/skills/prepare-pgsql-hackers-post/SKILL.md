@@ -6,6 +6,9 @@ description: Draft a pgsql-hackers initial core proposal, patch submission, revi
 # Prepare a pgsql-hackers post
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [evidence-first](../principle-pg-evidence-first/SKILL.md)
+when the corresponding decisions arise.
+
 Load [mail preparation](references/mail-preparation.md) for the chosen message
 type. Establish audience and existing thread/Message-ID. Gather patch version/base,
 verified behavior, validation evidence and unresolved questions as relevant to

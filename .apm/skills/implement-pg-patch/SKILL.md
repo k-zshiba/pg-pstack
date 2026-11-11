@@ -6,6 +6,9 @@ description: Implement a researched, scoped PostgreSQL upstream/core source patc
 # Implement a PostgreSQL patch
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [minimal-change](../principle-pg-minimal-change/SKILL.md), [preserve-invariants](../principle-pg-preserve-invariants/SKILL.md)
+when the corresponding decisions arise.
+
 Confirm the requested scope, actual target revision, existing changes and design
 evidence. Resolve material unknowns through research/design before substantial
 edits. Existing unrelated work remains untouched.

@@ -6,6 +6,9 @@ description: Design a PostgreSQL upstream/core feature or bug fix before impleme
 # Design a PostgreSQL patch
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [evidence-first](../principle-pg-evidence-first/SKILL.md), [preserve-invariants](../principle-pg-preserve-invariants/SKILL.md)
+when the corresponding decisions arise.
+
 Start with the available reproducer, source evidence and prior discussion. If
 they are missing, use research-postgresql first; do not fill gaps from memory.
 

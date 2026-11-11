@@ -4,9 +4,9 @@ Accepted 2026-10-06; Copilot added 2026-10-09. Based on [research](research.md).
 
 ## Package
 
-One Git-installable APM package contains seven Skills and one shared contributor
-instruction. This keeps installation, versioning and testing together. Skills
-load task-specific references as needed.
+One Git-installable APM package contains one coordinator mode, seven specialist
+Skills, five principle Skills and one shared contributor instruction. The mode
+loads eight playbooks. Installation, versioning and testing remain together.
 
 | Path | Contents |
 | --- | --- |
@@ -42,6 +42,50 @@ also read; separate workspaces avoid overlap. Ignore generated Copilot paths
 individually, preserving `.github/workflows/` as maintained source.
 Keep `apm_modules/` for deployed links. Native Git/local-source installation is
 supported; bundle installation has [constraints](validation.md#apm-0330-constraints).
+
+## Workflow layers
+
+```mermaid
+flowchart TD
+    Request[Explicit mode invocation] --> Mode[pgsql-hackers-mode]
+    Mode --> Playbook[Selected task playbook]
+    Playbook --> Specialist[Existing specialist Skills]
+    Specialist --> References[Task-specific references]
+    Principles[Five PostgreSQL principles] -.-> Playbook
+    Principles -.-> Specialist
+    Mode --> Delegation[Optional bounded delegates]
+    Delegation --> Verification[Parent integration and verification]
+    Specialist --> Verification
+```
+
+The [mode](../.apm/skills/pgsql-hackers-mode/SKILL.md) selects procedures,
+tracks progress, delegates when useful and verifies the requested result. Its
+`playbooks/` own task sequencing and completion criteria. The existing specialists
+own the detailed work and remain directly callable, without routing back to the mode.
+Design-only and validation-only requests use their specialists directly.
+
+Principles describe evidence-first investigation, subsystem invariants, minimal
+changes, behavior verification and comparable measurement. They are supporting
+reads loaded at the relevant decision, not independent workflow selections.
+The always-applied contract retains checkout identity, evidence boundaries,
+protection of existing work and authorization for external writes.
+
+Only the new mode sets `disable-model-invocation: true` and carries
+`agents/openai.yaml` with `allow_implicit_invocation: false`. These implement
+explicit invocation for supported Claude/Copilot and Codex hosts respectively.
+A generic Agent Skills host must implement the relevant policy; document a host
+that ignores it rather than claiming a portable enforcement guarantee.
+
+[Delegation](../.apm/skills/pgsql-hackers-mode/references/delegation.md) defines
+researcher, implementer and reviewer briefs without provider-specific agent
+registration or model pins. Delegation depends on available tools and session
+permission. Serial execution remains supported and self-review is labeled.
+The parent owns the final integrated diff and validation.
+
+APM copies nested playbooks, references and policy files with the skill and
+rewrites Markdown links, including links from playbooks. Cross-skill links may
+resolve into `apm_modules/`; keep that cache. No extra build/generation layer or
+new artifact dependency is introduced.
 
 ## Checkout and permissions
 
