@@ -31,15 +31,21 @@ Prepare releases through a pull request to `main` and tag the merged commit.
 - Discover PostgreSQL revisions, commands, support status and process details
   at task time instead of hard-coding them.
 
-Use Python 3.11+:
+Consumer installation uses the user-directory or standalone APM installation
+from the [README](README.md#install).
+Package tests additionally import APM's Python modules. With
+[uv](https://docs.astral.sh/uv/getting-started/installation/) installed, use Python
+3.11 and the pinned development dependencies without creating or activating a
+project `.venv`:
 
 ```bash
-python3.11 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements-dev.txt
-python -m unittest discover -s tests -v
-python evals/grade.py --validate
+uv run --no-project --python 3.11 --with-requirements requirements-dev.txt python -m unittest discover -s tests -v
+uv run --no-project --python 3.11 --with-requirements requirements-dev.txt python evals/grade.py --validate
 ```
+
+uv manages the test dependencies in its own cached environment. This Python-only
+maintainer setup is separate from installing pg-pstack for an agent. The CI setup
+installs these dependencies directly into its disposable runner Python.
 
 Tests use temporary projects and isolated child-process homes. See
 [validation](docs/validation.md) for coverage and constraints, and
@@ -72,12 +78,15 @@ Generate the root lock with `apm lock` before deployment; do not hand-edit it.
 During v0.x, preserve compatibility within each minor line. After 1.0,
 compatible additions are minor releases.
 
-The repository-only [release Skill](.agents/skills/release-pgsql-hackers-toolkit/SKILL.md)
+The repository-only [release Skill](.agents/skills/release-pg-pstack/SKILL.md)
 is tracked under `.agents/skills/` for local discovery and excluded from the APM
 package. A maintenance Skill addition alone does not count as a new distributed
 Skill when choosing a version bump.
 
-Use `$release-pgsql-hackers-toolkit` to prepare a release: compare the previous
+The maintenance Skill was renamed from `release-pgsql-hackers-toolkit` to
+`release-pg-pstack`; use the new name in local prompts.
+
+Use `$release-pg-pstack` to prepare a release: compare the previous
 stable tag with current main, explain the version bump, update release files,
 validate and create a PR. Preparation stops for human merge. After merging,
 explicitly request publication, for example: "Publish vX.Y.Z from release PR #N,

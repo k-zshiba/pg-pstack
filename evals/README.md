@@ -121,7 +121,7 @@ and other installed Skills to assess routing robustness.
 
 ## Repository release Skill
 
-The [maintenance release Skill](../.agents/skills/release-pgsql-hackers-toolkit/SKILL.md)
+The [maintenance release Skill](../.agents/skills/release-pg-pstack/SKILL.md)
 is repository-local and is not part of the distributed workflow routing fixtures.
 Use the following scenarios for instruction review or optional live-agent checks
 in a disposable toolkit checkout. Mock GitHub writes; do not publish real tags.

@@ -145,7 +145,7 @@ class APMTests(unittest.TestCase):
                             "commit", "-qm", "Fixture source"])
         s.run(self.source, ["git", "tag", "v0.1.0"])
         commit = s.run(self.source, ["git", "rev-parse", "HEAD"]).stdout.strip()
-        remote = "https://git.example.test/fixture/pgsql-hackers-toolkit.git"
+        remote = "https://git.example.test/fixture/pg-pstack.git"
         s.run(self.source, ["git", "config", "--global", f"url.{self.source.as_uri()}.insteadOf", remote])
         s.env["GIT_ALLOW_PROTOCOL"] = "file:https"
         return remote, commit

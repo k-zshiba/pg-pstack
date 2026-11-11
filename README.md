@@ -1,4 +1,4 @@
-# pgsql-hackers-toolkit
+# pg-pstack
 
 AI agent workflows for PostgreSQL core development: an explicit coordinator mode,
 eight task playbooks, seven specialist Skills and five supporting principles.
@@ -9,20 +9,42 @@ Application SQL, query tuning and database administration are outside its scope.
 
 ## Install
 
-Use Python 3.11+ and the tested APM version:
+Install the tested APM CLI into your Python user directory on Linux or macOS,
+without creating or activating a venv. Use Python 3.11+ with pip:
 
 ```bash
-python3.11 -m venv .venv
-. .venv/bin/activate
-python -m pip install apm-cli==0.33.0
+python3.11 -m pip install --user apm-cli==0.33.0
+export PATH="$(python3.11 -m site --user-base)/bin:$PATH"
+apm --version
 ```
+
+This uses the [official pip installation method](https://microsoft.github.io/apm/getting-started/installation/#pip-install)
+with a pinned version and a user-owned installation. `apm --version` should report
+`0.33.0`; use `type -a apm` if a different installation takes precedence.
+
+Alternatively, on macOS or Linux with glibc 2.38+, install the standalone binary.
+It requires no Python installation:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/microsoft/apm/v0.33.0/install.sh | APM_NO_DIRECT_FALLBACK=1 sh -s -- @v0.33.0
+export PATH="$HOME/.local/bin:$PATH"
+apm --version
+```
+
+The [versioned official installer](https://github.com/microsoft/apm/blob/v0.33.0/install.sh)
+selects the platform binary and verifies its checksum. Linux systems with older
+glibc should use the Python installation above. The installer refuses to replace
+an existing pip-owned APM; use its original Python installer to manage it. If
+Python reports an externally managed environment, respect that restriction and
+use a compatible standalone installation. See the
+[official platform options](https://microsoft.github.io/apm/getting-started/installation/).
 
 Install directly from the remote repository in a separate workspace:
 
 ```bash
 mkdir my-postgresql-workspace
 cd my-postgresql-workspace
-apm install k-zshiba/pgsql-hackers-toolkit#v0.2.0 --target codex
+apm install k-zshiba/pg-pstack#v0.2.0 --target codex
 apm compile --single-agents --target codex
 export PG_SOURCE=/absolute/path/to/postgresql
 ```
@@ -32,7 +54,16 @@ Choose `--target claude`, `--target copilot`, `--target agent-skills` or a
 combination such as `--target codex,copilot`; compile only when Codex is selected.
 
 For local development, clone this repository beside the workspace and replace
-`k-zshiba/pgsql-hackers-toolkit#v0.2.0` with `../pgsql-hackers-toolkit`.
+`k-zshiba/pg-pstack#v0.2.0` with `../pg-pstack`. Use a clean source clone: local
+APM installation rejects symlinks that escape the package, such as interpreter
+links in a leftover `.venv` directory.
+The `v0.2.0` tag predates the rename and still contains the old package metadata.
+To try the renamed package and current workflows before the next release, install
+`../pg-pstack` from a local clone of this branch. Existing consumers should update
+the old repository dependency to `k-zshiba/pg-pstack#v0.2.0`, run
+`apm install --update`, inspect the lock and deployed files, and recompile for Codex. Preserve
+handwritten instructions when migrating; do not edit lockfiles by hand.
+
 Use source packages; packed ZIP installation has
 [known limitations](docs/validation.md#apm-0330-constraints).
 

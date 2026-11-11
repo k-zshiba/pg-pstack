@@ -47,7 +47,7 @@ def reachable_documents(starts, boundary):
 
 
 CONTRACT = ROOT / ".apm/instructions/postgresql-contributor.instructions.md"
-MAINTAINER_SKILL = Path(".agents/skills/release-pgsql-hackers-toolkit")
+MAINTAINER_SKILL = Path(".agents/skills/release-pg-pstack")
 APM_VERSION = "0.33.0"
 
 

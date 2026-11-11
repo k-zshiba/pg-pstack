@@ -13,14 +13,14 @@ loads eight playbooks. Installation, versioning and testing remain together.
 | `apm.yml`, `apm.lock.yaml` | Package metadata and generated dependency lock |
 | `.apm/instructions/` | Shared rules and a copy of the license for packing |
 | `.apm/skills/` | Workflows and local references |
-| `.agents/skills/release-pgsql-hackers-toolkit/` | Repository-only release maintenance Skill |
+| `.agents/skills/release-pg-pstack/` | Repository-only release maintenance Skill |
 | `docs/`, `examples/` | Sources, validation and usage |
 | `tests/`, `evals/`, `.github/workflows/` | Package checks and behavioral evaluation |
 
 `.apm/` is the authored source for distributed agent files. APM deploys files and
 rewrites links; generated provider trees, root instructions, caches and bundles
 are not committed. The sole exception under `.agents/skills/` is the authored
-[release maintenance Skill](../.agents/skills/release-pgsql-hackers-toolkit/SKILL.md),
+[release maintenance Skill](../.agents/skills/release-pg-pstack/SKILL.md),
 tracked for local discovery after cloning this repository. It is outside manifest
 `includes`, excluded from archives and consumer deployment, and preserved by APM
 install, compile and prune. Tests enforce these boundaries. Release preparation

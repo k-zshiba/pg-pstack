@@ -5,7 +5,7 @@
 /.agents/*
 !/.agents/skills/
 /.agents/skills/*
-!/.agents/skills/release-pgsql-hackers-toolkit/
+!/.agents/skills/release-pg-pstack/
 /.claude/
 /.codex/
 /.github/copilot-instructions.md
