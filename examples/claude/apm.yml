@@ -3,4 +3,4 @@ version: 0.1.0
 targets: [claude]
 dependencies:
   apm:
-    - k-zshiba/pgsql-hackers-toolkit#v0.2.0
+    - k-zshiba/pg-pstack#v0.2.0

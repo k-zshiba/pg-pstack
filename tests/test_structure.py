@@ -18,7 +18,7 @@ class StructureTests(unittest.TestCase):
             self.assertTrue((ROOT / name).is_file(), name)
         self.assertEqual(importlib.metadata.version("apm-cli"), APM_VERSION)
         package = APMPackage.from_apm_yml(ROOT / "apm.yml", create_config=False)
-        self.assertEqual(package.name, "pgsql-hackers-toolkit")
+        self.assertEqual(package.name, "pg-pstack")
         manifest = load_yaml(ROOT / "apm.yml")
         self.assertRegex(manifest["version"], r"^0\.\d+\.\d+$")
         self.assertEqual(manifest["targets"], ["codex", "claude", "copilot", "agent-skills"])
@@ -124,7 +124,7 @@ class StructureTests(unittest.TestCase):
             manifest = load_yaml(path)
             APMPackage.from_apm_yml(path, create_config=False)
             self.assertEqual(manifest["dependencies"]["apm"],
-                             [f"k-zshiba/pgsql-hackers-toolkit#v{version}"])
+                             [f"k-zshiba/pg-pstack#v{version}"])
             self.assertTrue(set(manifest["targets"]) <= {"codex", "claude", "copilot", "agent-skills"})
         copilot = load_yaml(ROOT / "examples/copilot/apm.yml")
         self.assertEqual(copilot["targets"], ["copilot"])

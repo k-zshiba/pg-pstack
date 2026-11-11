@@ -1,20 +1,19 @@
 ---
-name: release-pgsql-hackers-toolkit
-description: Prepare a release PR or publish a merged release of k-zshiba/pgsql-hackers-toolkit, including version classification, validation, tags and GitHub Release verification. Use only for maintaining this repository, not for PostgreSQL server releases or consumer projects.
+name: release-pg-pstack
+description: Prepare a release PR or publish a merged release of k-zshiba/pg-pstack, including version classification, validation, tags and GitHub Release verification. Use only for maintaining this repository, not for PostgreSQL server releases or consumer projects.
 ---
 
-# Release pgsql-hackers-toolkit
+# Release pg-pstack
 
 Read [CONTRIBUTING.md](../../../CONTRIBUTING.md#version-and-release) and the
 [release workflow](../../../.github/workflows/validate.yml) at the target revision.
-This is a repository maintenance Skill; it is not part of the seven distributed
-PostgreSQL development Skills.
+This is a repository maintenance Skill; it is not part of the distributed PostgreSQL development Skills.
 
 ## Establish the repository and stage
 
 - Resolve the requested checkout, record its absolute root, HEAD, branch and
   `git status --short`, and verify the manifest name and GitHub remote identify
-  `k-zshiba/pgsql-hackers-toolkit`. Do not run release operations in a consumer
+  `k-zshiba/pg-pstack`. Do not run release operations in a consumer
   or PostgreSQL source tree. Verify `gh` authentication and repository access;
   scope GitHub commands to this repository with `--repo`.
 - Distinguish preparation (including an unqualified "prepare a release" or
@@ -100,8 +99,7 @@ PostgreSQL development Skills.
 5. In a fresh temporary consumer and isolated APM state, install this repository
    pinned to the published tag, verify the generated lock resolves to the tagged
    SHA, remove only that consumer's disposable module/cache state, and replay its
-   committed lock with a cold `apm install --frozen`. Check the seven distributed
-   Skills and their links; the maintenance Skill must not be deployed. Follow
+   committed lock with a cold `apm install --frozen`. Check the distributed Skills and their links; the maintenance Skill must not be deployed. Follow
    [consumer validation](../../../docs/validation.md) for current constraints.
 6. Report version, merge/tag SHA, PR and Release URLs, workflow result and public
    consumer verification, explicitly identifying any incomplete checks. Asset

@@ -25,6 +25,21 @@ The original results below are historical. Offline package checks and fixture
 validation do not establish live routing, independent review or PostgreSQL patch
 correctness.
 
+## Rename and installation checks
+
+On 2026-11-12, all 18 tests and 48 scenario definitions passed after the pg-pstack
+rename. The renamed release maintenance Skill passed metadata validation.
+A Python 3.11 installation into a temporary package directory, without venv,
+passed local clean-source install, Codex compilation and audit. The smoke test
+used `pip --target` to avoid modifying the user's installed Python packages.
+
+The standalone installer rejected this host's glibc 2.35 because APM 0.33.0's
+Linux binary requires glibc 2.38+. README installation instructions therefore
+include Python user-directory installation and state the binary prerequisite.
+No standalone binary success is claimed on this host. Local-source validation
+used a clean copy; installing the working checkout with its existing `.venv`
+was rejected because its interpreter symlinks escape the package root.
+
 ## Recorded results
 
 | Check | Result |
