@@ -3,6 +3,28 @@
 Package verification: 2026-10-10; runtime/URL evidence: 2026-10-06.
 v0.1.0, APM 0.33.0 and Python 3.11; temporary projects with isolated homes.
 
+## Architecture reorganization validation
+
+The Unreleased architecture adds one explicit mode, eight nested playbooks and
+five supporting principles while preserving seven specialist entrypoints. The
+current tests check resource reachability, native/cached cross-skill links,
+invocation policy preservation, all eight target combinations, frozen replay,
+archive contents, drift/prune and the repository-only maintenance boundary.
+
+Reorganization checks on 2026-11-12:
+
+| Check | Result |
+| --- | --- |
+| Unit/integration suite | 18 passed, including nested resource and invocation-policy preservation |
+| Eval definitions | 48 valid; original 31 scenarios retained and 17 added |
+| Codex discovery | CLI 0.159.2 recognized all 13 Skills without errors; zero model turns |
+| Skill creation validator | 12 Skills passed; mode uses the supported host-specific `disable-model-invocation` field outside this validator's allowlist, checked by repository metadata and deployment tests |
+| Live-agent observations | Not collected; no claim of verified live routing or behavior |
+
+The original results below are historical. Offline package checks and fixture
+validation do not establish live routing, independent review or PostgreSQL patch
+correctness.
+
 ## Recorded results
 
 | Check | Result |

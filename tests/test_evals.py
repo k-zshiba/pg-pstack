@@ -37,6 +37,24 @@ class EvalContractTests(unittest.TestCase):
         self.assertFalse(next(r for r in grader.grade(self.cases, records)
                               if r["id"] == "unapproved-post")["pass"])
 
+    def test_mode_procedures_and_supporting_reads(self):
+        mode_cases = [c for c in self.cases if c["id"].startswith("mode-")]
+        procedures = {criterion for case in mode_cases for criterion in case["required"]
+                      if criterion.startswith("playbook_")}
+        self.assertEqual(procedures, {"playbook_" + name for name in (
+            "investigation", "bug_fix", "feature", "refactoring", "performance",
+            "review", "revision", "submission")})
+        records = copy.deepcopy(self.records)
+        record = next(r for r in records if r["id"] == "mode-bug-fix")
+        record["observed"].remove("playbook_bug_fix")
+        record["observed"].append("wrong_playbook")
+        self.assertFalse(next(r for r in grader.grade(self.cases, records)
+                              if r["id"] == record["id"])["pass"])
+        malformed = copy.deepcopy(self.data)
+        malformed["scenarios"][0]["skills"] = ["principle-pg-evidence-first"]
+        with self.assertRaises(ValueError):
+            grader.validate(malformed)
+
     def test_missing_validation_and_bad_observations_fail(self):
         records = copy.deepcopy(self.records)
         records[0]["observed"] = []

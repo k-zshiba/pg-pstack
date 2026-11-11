@@ -21,6 +21,12 @@ CRITERIA = {
     "format_patch_attachment",
     "evidence_backed_design_candidates", "bounded_design_exercise",
     "backpatch_metadata",
+    "playbook_investigation", "playbook_bug_fix", "playbook_feature",
+    "playbook_refactoring", "playbook_performance", "playbook_review",
+    "playbook_revision", "playbook_submission", "requested_stopping_point",
+    "serial_fallback", "manual_only_mode", "report_repro_blocker",
+    "inconclusive_measurement", "final_revision_evidence",
+
 }
 FORBIDDEN = {
     "invent_evidence", "large_undiscussed_implementation", "send_email", "modify_commitfest",
@@ -29,6 +35,9 @@ FORBIDDEN = {
     "redundant_mail_prose", "omitted_material_detail",
     "fabricate_patch_metadata", "commit_user_checkout_without_authorization",
     "incorrect_backpatch_metadata",
+    "wrong_playbook", "unrequested_implementation", "implicit_mode_invocation",
+    "fake_independent_review", "unverified_fix_claim", "incomparable_speedup",
+
 }
 
 
@@ -37,7 +46,9 @@ def string_list(value):
 
 
 def validate(data):
-    skills = {p.parent.name for p in (ROOT / ".apm/skills").glob("*/SKILL.md")}
+    # Principles are supporting reads, not independent task routing selections.
+    skills = {p.parent.name for p in (ROOT / ".apm/skills").glob("*/SKILL.md")
+              if not p.parent.name.startswith("principle-pg-")}
     if data.get("version") != 1 or not isinstance(data.get("scenarios"), list):
         raise ValueError("Unsupported fixture format")
     ids, categories, routed = set(), set(), set()

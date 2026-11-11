@@ -6,6 +6,9 @@ description: Critically review a PostgreSQL upstream/core patch, CommitFest subm
 # Review a PostgreSQL patch
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [evidence-first](../principle-pg-evidence-first/SKILL.md), [preserve-invariants](../principle-pg-preserve-invariants/SKILL.md), [verify-behavior](../principle-pg-verify-behavior/SKILL.md)
+when the corresponding decisions arise.
+
 Identify the patch version/series, base revision, author intent, whole discussion,
 previous review and CommitFest record. Verify latest attachments and prerequisites.
 Review is about finding problems and exposing uncertainty; do not simply restate

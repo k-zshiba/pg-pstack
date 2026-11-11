@@ -13,11 +13,39 @@ from markdown_it import MarkdownIt
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = {
+SPECIALIST_SKILLS = {
     "research-postgresql", "design-pg-patch", "implement-pg-patch",
     "test-pg-patch", "review-pg-patch", "prepare-pgsql-hackers-post",
     "revise-pg-patch",
 }
+MODE = "pgsql-hackers-mode"
+PLAYBOOKS = {"investigation", "bug-fix", "feature", "refactoring", "performance",
+             "review", "revision", "submission"}
+PRINCIPLES = {"principle-pg-" + name for name in (
+    "evidence-first", "preserve-invariants", "minimal-change", "verify-behavior",
+    "measure-before-optimizing")}
+SKILLS = SPECIALIST_SKILLS | PRINCIPLES | {MODE}
+
+
+def reachable_documents(starts, boundary):
+    """Follow local Markdown links from installed entrypoints, within the package."""
+    boundary = Path(boundary).resolve()
+    pending = [Path(p).resolve() for p in starts]
+    seen = set()
+    while pending:
+        path = pending.pop()
+        if path in seen or not path.is_file() or not path.is_relative_to(boundary):
+            continue
+        seen.add(path)
+        if path.suffix != ".md":
+            continue
+        for href in markdown_links(path.read_text()):
+            url = urlsplit(href)
+            if not url.scheme and not url.netloc:
+                pending.append((path.parent / unquote(url.path)).resolve())
+    return seen
+
+
 CONTRACT = ROOT / ".apm/instructions/postgresql-contributor.instructions.md"
 MAINTAINER_SKILL = Path(".agents/skills/release-pgsql-hackers-toolkit")
 APM_VERSION = "0.33.0"

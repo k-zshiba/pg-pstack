@@ -2,6 +2,42 @@
 
 Supply the checkout path, reproducer, thread/CommitFest URL and patches as needed.
 
+## Coordinated work
+
+Use `$pgsql-hackers-mode` in Codex or `/pgsql-hackers-mode` in Claude/Copilot.
+The existing specialist examples below continue to work without the mode.
+
+```text
+$pgsql-hackers-mode Fix this PostgreSQL core crash in /path/to/postgresql.
+First reproduce and isolate the cause, then implement and validate a focused fix.
+```
+
+```text
+$pgsql-hackers-mode Refactor this PostgreSQL core ownership path. Establish the
+behavior and invariants to preserve, compare designs, then verify equivalence.
+```
+
+```text
+$pgsql-hackers-mode Investigate this measured PostgreSQL core performance
+regression. Compare equivalent baseline and patched workloads, check correctness
+and report repetitions, variability and the bottleneck. Diagnosis only for now.
+```
+
+```text
+$pgsql-hackers-mode Design this PostgreSQL core interface change only.
+Return semantics, alternatives and validation plans; stop before implementation.
+```
+
+```text
+$pgsql-hackers-mode Review this PostgreSQL core patch. Delegation is unavailable;
+perform a self-review and report its coverage and validation limits.
+```
+
+The mode also provides investigation, feature, review, revision and submission
+playbooks. It prepares mail or attachments only when requested and does not send
+or publish them without authorization. See the
+[playbook index](../.apm/skills/pgsql-hackers-mode/SKILL.md#choose-the-work).
+
 ## Planner bug
 
 ```text

@@ -6,6 +6,9 @@ description: Revise a PostgreSQL upstream/core patch into v2, v3 or later from r
 # Revise a PostgreSQL patch
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [evidence-first](../principle-pg-evidence-first/SKILL.md), [minimal-change](../principle-pg-minimal-change/SKILL.md), [verify-behavior](../principle-pg-verify-behavior/SKILL.md)
+when the corresponding decisions arise.
+
 Establish current patch/base, latest thread/version, feedback messages and the
 user's working changes. Read replies after the supplied feedback; a later
 message may resolve or change an earlier request. Do not assume v3 is latest.

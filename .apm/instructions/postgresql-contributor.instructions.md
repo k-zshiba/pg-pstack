@@ -23,10 +23,8 @@ applyTo: "**"
   Distinguish source-confirmed, documentation-confirmed, mailing-list-confirmed,
   inference and unknown in clear prose; use explicit labels only where useful.
   A proposal in a thread is not an implemented behavior or community agreement.
-- Read analogous code, callers/callees, relevant history, tests, comments and
-  subsystem README files before changing semantics. Prefer existing subsystem
-  conventions to generic C advice. Inspect the checkout's coding-conventions
-  documentation and pgindent prerequisites; do not format unrelated files.
+- Follow the relevant specialist Skills and their linked principles for source
+  investigation, subsystem invariants, focused changes and behavior verification.
 - Use `research-postgresql` for locating/verifying evidence; `design-pg-patch`
   before substantive new behavior; `implement-pg-patch` for an agreed focused
   change; `test-pg-patch` for validation; `review-pg-patch` for critical review;
@@ -43,12 +41,9 @@ applyTo: "**"
   authorization for that operation. Never discard user changes, edit unrelated
   changes or apply another author's patch over a dirty tree. Use an isolated
   worktree/directory for patch applicability or baseline experiments.
-- Keep diffs focused, document semantics, and add appropriate tests. Confirm
-  commands in the actual tree/build before running them. Record configuration,
-  exact commands, exit status, failures/skips and coverage limits. Use temporary
-  test instances, never an existing live database by default. Untested
-  AI-generated code is not submission-ready; passing tests is not a correctness
-  proof. Report missing validation honestly.
+- Confirm build/test commands in the actual checkout, use temporary test instances
+  and bind results to the tested revision. Report failures, skips and missing
+  validation honestly. Untested code is not submission-ready.
 - Assess compatibility, portability and backpatch suitability from each target
   branch's source/tests and current support policy. Do not assume new features
   belong on stable branches or cherry-pick automatically.

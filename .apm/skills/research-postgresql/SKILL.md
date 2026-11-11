@@ -6,6 +6,9 @@ description: Investigate PostgreSQL upstream/core source, planner bugs, internal
 # Research PostgreSQL
 
 Read the [common contributor contract](../../instructions/postgresql-contributor.instructions.md).
+Apply [evidence-first](../principle-pg-evidence-first/SKILL.md)
+when the corresponding decisions arise.
+
 Establish the actual checkout/revision and the question being answered. For
 primary-source navigation, consult [source discovery](references/source-discovery.md)
 only when source/history/list discovery is needed.

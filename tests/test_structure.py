@@ -6,7 +6,7 @@ import unittest
 from apm_cli.models.apm_package import APMPackage
 from apm_cli.core.errors import UnknownTargetError
 
-from support import APM_VERSION, CONTRACT, MAINTAINER_SKILL, ROOT, SKILLS, check_links, frontmatter, load_yaml
+from support import APM_VERSION, CONTRACT, MAINTAINER_SKILL, ROOT, SKILLS, MODE, PLAYBOOKS, reachable_documents, check_links, frontmatter, load_yaml
 
 
 class StructureTests(unittest.TestCase):
@@ -43,7 +43,6 @@ class StructureTests(unittest.TestCase):
     def test_skill_metadata_and_progressive_references(self):
         paths = list((ROOT / ".apm/skills").glob("*/SKILL.md"))
         names = []
-        linked = set()
         for path in paths:
             metadata, body = frontmatter(path)
             name = metadata["name"]
@@ -53,19 +52,36 @@ class StructureTests(unittest.TestCase):
             self.assertLessEqual(len(name), 64)
             self.assertIsInstance(metadata["description"], str)
             self.assertTrue(1 <= len(metadata["description"]) <= 1024)
-            self.assertEqual(set(metadata), {"name", "description"})
+            self.assertEqual(set(metadata), {"name", "description", "disable-model-invocation"}
+                             if name == MODE else {"name", "description"})
             self.assertLess(len(body.splitlines()), 120)
             self.assertIn("../../instructions/postgresql-contributor.instructions.md", body)
             self.assertNotRegex(body, r"TODO|\[INSERT|!`")
-            for ref in path.parent.glob("references/*.md"):
-                self.assertIn(f"references/{ref.name}", body)
-                linked.add(ref)
         self.assertEqual(set(names), SKILLS)
         self.assertEqual(len(names), len(set(names)))
-        self.assertEqual(linked, set((ROOT / ".apm/skills").glob("*/references/*.md")))
+        all_docs = set((ROOT / ".apm/skills").rglob("*.md"))
+        reached = reachable_documents(paths, ROOT / ".apm")
+        self.assertTrue({p.resolve() for p in all_docs} <= reached,
+                        sorted(str(p) for p in all_docs if p.resolve() not in reached))
         metadata, body = frontmatter(CONTRACT)
         self.assertEqual(metadata["applyTo"], "**")
         self.assertLess(len(body.splitlines()), 80)
+
+    def test_mode_invocation_and_routing_resources(self):
+        mode = ROOT / ".apm/skills" / MODE
+        self.assertTrue(frontmatter(mode / "SKILL.md")[0]["disable-model-invocation"])
+        self.assertFalse(load_yaml(mode / "agents/openai.yaml")["policy"]["allow_implicit_invocation"])
+        self.assertEqual({p.stem for p in (mode / "playbooks").glob("*.md")}, PLAYBOOKS)
+        self.assertTrue((mode / "references/delegation.md").is_file())
+        for name in SKILLS - {MODE}:
+            path = ROOT / ".apm/skills" / name / "SKILL.md"
+            metadata, body = frontmatter(path)
+            self.assertNotIn("disable-model-invocation", metadata)
+            self.assertFalse((path.parent / "agents/openai.yaml").exists())
+            self.assertNotIn("pgsql-hackers-mode", body)
+        reached = reachable_documents([mode / "SKILL.md"], ROOT / ".apm")
+        self.assertTrue({(ROOT / ".apm/skills" / n / "SKILL.md").resolve()
+                         for n in SKILLS} <= reached)
 
     def test_links_and_no_provider_source_duplication(self):
         paths = []

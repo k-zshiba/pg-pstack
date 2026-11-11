@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Add explicit pgsql-hackers-mode with eight development playbooks and optional
+  bounded delegation, retaining all seven directly callable specialist Skills.
+- Extract five PostgreSQL core principles and add reproducible performance
+  measurement guidance. Preserve APM targets, package layout and authorization.
+- Extend deployment/resource reachability checks and behavioral eval fixtures for
+  mode selection, stopping points, serial execution and evidence gaps.
+
 ## 0.2.0 — 2026-10-27
 
 - Expand research Skill routing to include evidence-backed refactoring and feature
