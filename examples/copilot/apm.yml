@@ -3,4 +3,4 @@ version: 0.1.0
 targets: [copilot]
 dependencies:
   apm:
-    - k-zshiba/pg-pstack#v0.2.0
+    - k-zshiba/pg-pstack#v0.3.0

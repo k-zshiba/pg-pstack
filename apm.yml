@@ -1,6 +1,6 @@
 $schema: https://microsoft.github.io/apm/specs/schemas/manifest-v0.1.41.schema.json
 name: pg-pstack
-version: 0.2.0
+version: 0.3.0
 description: Evidence-driven workflows for AI-assisted PostgreSQL upstream/core development.
 author: pg-pstack contributors
 license: PostgreSQL

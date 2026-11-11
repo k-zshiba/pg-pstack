@@ -2,10 +2,15 @@
 
 ## Unreleased
 
+## 0.3.0 — 2026-11-12
+
 - Rename the package and repository references to pg-pstack, including the local
-  release-pg-pstack maintenance Skill. Existing PostgreSQL workflow names remain.
+  release-pg-pstack maintenance Skill. Update repository dependencies to
+  k-zshiba/pg-pstack and local release prompts to release-pg-pstack. Existing
+  PostgreSQL workflow names remain.
 - Document user-directory and standalone APM installation without venv setup,
-  with uv-managed maintainer test commands; explain migration from old repository references and release tags.
+  with uv-managed maintainer test commands; explain migration from old repository
+  references and release tags.
 
 - Add explicit pgsql-hackers-mode with eight development playbooks and optional
   bounded delegation, retaining all seven directly callable specialist Skills.

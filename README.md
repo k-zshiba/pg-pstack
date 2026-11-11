@@ -44,7 +44,7 @@ Install directly from the remote repository in a separate workspace:
 ```bash
 mkdir my-postgresql-workspace
 cd my-postgresql-workspace
-apm install k-zshiba/pg-pstack#v0.2.0 --target codex
+apm install k-zshiba/pg-pstack#v0.3.0 --target codex
 apm compile --single-agents --target codex
 export PG_SOURCE=/absolute/path/to/postgresql
 ```
@@ -54,15 +54,15 @@ Choose `--target claude`, `--target copilot`, `--target agent-skills` or a
 combination such as `--target codex,copilot`; compile only when Codex is selected.
 
 For local development, clone this repository beside the workspace and replace
-`k-zshiba/pg-pstack#v0.2.0` with `../pg-pstack`. Use a clean source clone: local
+`k-zshiba/pg-pstack#v0.3.0` with `../pg-pstack`. Use a clean source clone: local
 APM installation rejects symlinks that escape the package, such as interpreter
 links in a leftover `.venv` directory.
 The `v0.2.0` tag predates the rename and still contains the old package metadata.
-To try the renamed package and current workflows before the next release, install
-`../pg-pstack` from a local clone of this branch. Existing consumers should update
-the old repository dependency to `k-zshiba/pg-pstack#v0.2.0`, run
-`apm install --update`, inspect the lock and deployed files, and recompile for Codex. Preserve
-handwritten instructions when migrating; do not edit lockfiles by hand.
+Version `v0.3.0` is the first release of the renamed package and coordinated
+workflows. Existing consumers should update the old repository dependency to
+`k-zshiba/pg-pstack#v0.3.0`, run `apm install --update`, inspect the lock and deployed
+files, and recompile for Codex. Preserve handwritten instructions when migrating;
+do not edit lockfiles by hand.
 
 Use source packages; packed ZIP installation has
 [known limitations](docs/validation.md#apm-0330-constraints).
